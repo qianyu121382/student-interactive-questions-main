@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Question Submission</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="container">
+    <div class="category-display">
+        <p>Selected Category: <span id="categoryText"></span></p>
+    </div>
+    <div class="difficulty-selection">
+        <p id="difficultyDisplay">Elementary Level</p>
+    </div>
+    <div class="question-select-container">
+        <label for="questionSelect" id="questionLabel">Select:</label>
+        <select id="questionSelect" onchange="loadQuestion()">
+        </select>
+    </div>
+    <!-- 动态加载的题目描述区域 -->
+    <div class="text-description">
+        <h3 id="questionText"></h3>
+    </div>
+
+    <!-- 图片描述区域 -->
+    <div class="image-description">
+        <img id="questionImage" src="" alt="Question Image" style="max-width: 100%; height: auto;">
+    </div>
+    <div class="pyramid-container">
+        <div class="row">
+            <div class="box highlight">280</div>
+        </div>
+        <div class="row">
+            <div class="box highlight">75</div>
+            <div class="box"><input type="text"></div>
+        </div>
+        <div class="row">
+            <div class="box highlight">31</div>
+            <div class="box"><input type="text"></div>
+            <div class="box"><input type="text"></div>
+        </div>
+        <div class="row">
+            <div class="box">10</div>
+            <div class="box highlight">13</div>
+            <div class="box"><input type="text"></div>
+            <div class="box"><input type="text"></div>
+        </div>
+        <div class="row">
+            <div class="box"><input type="text"></div>
+            <div class="box"><input type="text"></div>
+            <div class="box"><input type="text"></div>
+            <div class="box"><input type="text"></div>
+            <div class="box"><input type="text"></div>
+        </div>
+    </div>
+    <!-- 提示按钮和提示文本 -->
+    <div class="hint-section">
+
+        <ul id="hintList" class="hidden" style="text-align: left; padding-left: 30px"></ul>
+    </div>
+
+    <!-- 返回按钮和其他按钮 -->
+    <div class="button-section">
+        <button onclick="goBack()">Return</button>
+        <button id="hintButton">Hint</button>
+        <button id="submitButton" onclick="submitAnswer()">Submit</button>
+    </div>
+</div>
+
+<script src="scripts.js"></script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Category</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="container">
+    <h1>Select a Category</h1>
+    <button onclick="goToCategory('A')">Category A</button>
+    <button onclick="goToCategory('B')">Category B</button>
+    <button onclick="goToCategory('C')">Category C</button>
+</div>
+
+<script>
+    function goToCategory(category) {
+        window.location.href = `question.html?category=${category}&question=1`;
+    }
+</script>
+</body>
+</html>
