@@ -64,7 +64,7 @@ select, input[type="file"]{
     height: 50px;
 }
 textarea{
-    width: 500px;
+    width: 70vh;
     margin: 10px 0;
     padding: 10px;
     font-size: 16px;
