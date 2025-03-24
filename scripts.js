@@ -3,10 +3,11 @@ let answers = {};
 
 // 显示选择的类别
 function displaySelectedCategory() {
-    const { category } = getQueryParams();
+    const {category} = getQueryParams();
     const categoryText = document.getElementById('categoryText');
     categoryText.innerText = `Category ${category}`;
 }
+
 // 获取查询参数
 function getQueryParams() {
     const params = new URLSearchParams(window.location.search);
@@ -68,7 +69,7 @@ function loadQuestion() {
     const question = questionData[category][difficulty][selectedQuestionIndex];
 
     // 更新问题描述
-    document.getElementById('questionText').innerText = question.text;
+    document.getElementById('questionText').innerHTML = question.text;
 
     // 更新图片
     const questionImage = document.getElementById('questionImage');
@@ -144,8 +145,11 @@ const questionData = {
     A: {
         easy: [
             {
-                title: "Question A1 (Getting Started)",
-                text: "I have filled in the number 10 in the bottom left corner. What number should go at “?” ? ",
+                title: "Question 1: Solve the 5-Level Pyramid with a Given Value",
+                text: "Welcome to the <b>Brick Pyramid Challenge</b>! In this problem, you will apply logical reasoning and step-by-step calculations to <b>fill in missing values</b> in a <b>5-level pyramid</b>.<br>\n" +
+                    "Each brick follows a simple rule:<br>\n" +
+                    "Every brick is the <b>sum of the two bricks directly below it</b>.<br>\n" +
+                    "In this pyramid, <b>one value is already given</b>—the bottom-left brick is <b>5</b>. Your task is to <b>fill in the missing numbers</b> so that the pyramid follows the rule.",
                 image: "img/A/elementary_a.png",
                 hint: "Follow the pyramid’s rule: each brick is the sum of the two bricks below it.\n" +
                     "Compute 31-10 and place the result in the empty space."

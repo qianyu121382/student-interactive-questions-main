@@ -7,16 +7,28 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<div class="container">
-    <h1>Select a Category</h1>
-    <button onclick="goToCategory('A')">Category A</button>
-    <button onclick="goToCategory('B')">Category B</button>
-    <button onclick="goToCategory('C')">Category C</button>
+<div class="container" >
+    <h1 style="color: #3498db">
+        Introduction
+    </h1>
+    <img src="img/img.png" style="width: 50vh; height: auto;">
+    <p style="text-align: left"> In this lesson, we will explore how numbers in a <b>structured pattern</b> interact and how we can use logical reasoning to <b>fill in missing values</b> correctly.<br>
+        A <b>Brick Pyramid</b> follows a simple rule:<br>
+        Each brick in the pyramid is the <b>sum of the two bricks directly below it</b>.<br>
+        Our goal today is to <b>apply this rule</b> to complete the pyramid while thinking critically about possible solutions.<br>
+        <br>
+        <b>What We Will Do Today:</b><br>
+        1 <b>Fill in the missing values</b> in the Brick Pyramid by applying the given rule.<br>
+        2 <b>Determine the number of possible solutions</b>—is there  <b>only one correct way</b> to complete the pyramid, or are there <b>multiple solutions</b>?<br>
+        3 <b>Create our own Brick Pyramid problem</b> to challenge ourselves and others!<br>
+        <br>
+        Let's get started and see if we can  <b>successfully complete all three tasks</b>!</p>
+    <button onclick="goToCategory()">Next</button>
 </div>
 
 <script>
-    function goToCategory(category) {
-        window.location.href = `question.html?category=${category}&question=1`;
+    function goToCategory() {
+        window.location.href = `index1.html`;
     }
 </script>
 </body>
