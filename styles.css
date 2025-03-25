@@ -54,7 +54,7 @@ button:hover {
     background-color: #2980b9;
 }
 
-select, input[type="file"]{
+select, input[type="file"] {
     width: 90%;
     margin: 10px 0;
     padding: 10px;
@@ -63,8 +63,9 @@ select, input[type="file"]{
     border-radius: 5px;
     height: 50px;
 }
-textarea{
-    width: 70vh;
+
+textarea {
+    width: 93%;
     margin: 10px 0;
     padding: 10px;
     font-size: 16px;
@@ -115,6 +116,7 @@ img {
 #questionLabel {
     margin-right: 10px;
 }
+
 .pyramid-container {
     display: flex;
     flex-direction: column;
@@ -122,11 +124,13 @@ img {
     justify-content: center;
     margin-bottom: 30px;
 }
+
 .row {
     display: flex;
     justify-content: center;
     margin: 1px 0;
 }
+
 .box {
     width: 60px;
     height: 30px;
@@ -137,13 +141,31 @@ img {
     margin: 0 2px;
     background-color: #f3f3f3;
 }
+
 .highlight {
     background-color: yellow;
 }
+
 input[type="text"] {
     width: 58px;
     height: 28px;
     text-align: center;
     border: 1px solid #000;
     background-color: white;
+}
+
+.question-container {
+    text-align: left; /* 左对齐题目和答案 */
+    margin-left: 2vh;
+}
+
+.answer-container {
+    margin-left: 2vh;
+    display: flex; /* 使用flex布局让答案在同一行 */
+    flex-wrap: wrap; /* 如果答案过多，可以换行 */
+    gap: 10px; /* 答案之间的间隔 */
+}
+
+.answer-container label {
+    margin-bottom: 0; /* 移除label的默认底部外边距 */
 }
