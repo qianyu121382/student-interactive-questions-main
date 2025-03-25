@@ -60,6 +60,7 @@ document.getElementById('hintButton').addEventListener('click', function () {
         hintList.classList.add('hidden'); // 隐藏提示列表
     }
 });
+
 // 加载题目内容
 function loadQuestion() {
     const {category, difficulty} = getQueryParams();
@@ -80,24 +81,7 @@ function loadQuestion() {
         questionImage.style.display = 'none';
     }
     if (question.other !== "") {
-        console.log(question.other);
-        // 创建一个新的 div 元素作为文本描述的容器
-        const textDescriptionDiv = document.createElement('div');
-        textDescriptionDiv.className = 'text-description';
-
-        // 创建 h3 元素，并设置其内容为 question.other 的值
-        const heading = document.createElement('h3');
-        heading.id = 'questionText'; // 使用唯一的 id
-        heading.innerText = question.other;
-
-        // 将 h3 元素添加到文本描述的容器中
-        textDescriptionDiv.appendChild(heading);
-
-        // 获取图片描述区域
-        const imageDescriptionDiv = document.querySelector('.image-description');
-
-        // 将文本描述的容器添加到图片描述区域之后
-        imageDescriptionDiv.parentNode.insertBefore(textDescriptionDiv, imageDescriptionDiv.nextSibling);
+        document.getElementById('questionOther').innerHTML = question.other;
     }
     // 更新提示列表
     const hintList = document.getElementById('hintList');
@@ -106,7 +90,7 @@ function loadQuestion() {
     hints.forEach(hint => {
         if (hint.trim() !== '') { // 忽略空行
             const listItem = document.createElement('li');
-            listItem.innerText = hint.trim();
+            listItem.innerHTML = hint.trim();
             hintList.appendChild(listItem);
         }
     });
@@ -226,18 +210,23 @@ const questionData = {
     A: {
         easy: [
             {
-                title: "Question A1 (Getting Started)",
-                text: "I have filled in the number 10 in the bottom left corner. What number should go at “?” ? ",
+                title: "Question 1: Solve the 5-Level Pyramid with a Given Value",
+                text: "Welcome to the <b>Brick Pyramid Challenge</b>! In this problem, you will apply logical reasoning and step-by-step calculations to <b>fill in missing values</b> in a <b>5-level pyramid</b>.<br>\n" +
+                    "Each brick follows a simple rule:<br>\n" +
+                    "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Every brick is the <b>sum of the two bricks directly below it</b>.<br>\n<br>" +
+                    "In this pyramid, <b>one value is already given</b>—the bottom-left brick is <b>5</b>. Your task is to <b>fill in the missing numbers</b> so that the pyramid follows the rule.",
                 image: "",
-                other: "",
-                hint: "Follow the pyramid’s rule: each brick is the sum of the two bricks below it.\n" +
-                    "Compute 31-10 and place the result in the empty space.",
+                other: "<b>Main task:</b><br>" +
+                    "Use the <b>pyramid rule</b> to determine all missing values and complete the pyramid.",
+                hint: "<b>Start from the bottom row</b>—you already know the first number <b>(5)</b>. Use the rule to find the next brick in that row.<br>\n" +
+                    "<b>Move upward step by step</b>, using the <b>sum rule</b> to fill in the second row, then the third, and so on.<br>\n" +
+                    "<b>Check your calculations</b>—each brick must be the sum of the two below it.",
                 textarea: "false",
                 pyramid: "280," +
-                    "-2,-2," +
-                    "-2,75,-2," +
-                    "31,-2,-2,-2," +
-                    "10,?,13,-2,-2",
+                    "-1,-1," +
+                    "-1,75,-1," +
+                    "31,-1,-1,-1," +
+                    "5,-1,13,-1,-1",
                 pyramid_color: "true," +
                     "false,false," +
                     "false,true,false," +
@@ -247,7 +236,7 @@ const questionData = {
         ],
         medium: [
             {
-                title: "Question 2 (Filling Empty Bricks):",
+                title: "Question 2: Identify the Solution Type of the 5-Level Pyramid",
                 text: "Try to complete the entire brick pyramid by filling in the empty bricks.",
                 image: "",
                 other: "",
