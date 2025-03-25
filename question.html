@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Question Submission</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="container">
+    <div class="category-display">
+        <p>Selected Category: <span id="categoryText"></span></p>
+    </div>
+    <div class="difficulty-selection">
+        <p id="difficultyDisplay">Elementary Level</p>
+    </div>
+    <div class="question-select-container">
+        <label for="questionSelect" id="questionLabel">Select:</label>
+        <select id="questionSelect" onchange="loadQuestion()">
+        </select>
+    </div>
+    <!-- 动态加载的题目描述区域 -->
+    <div class="text-description">
+        <p id="questionText" style="text-align: left;margin: 2vh"></p>
+    </div>
+
+    <!-- 图片描述区域 -->
+    <div class="image-description">
+        <img id="questionImage" src="" alt="Question Image" style="max-width: 100%; height: auto;">
+    </div>
+    <div class="pyramid-container">
+    </div>
+    <!-- 题目补充 -->
+    <div class="other-description">
+        <p id="questionOther" style="text-align: left;margin: 2vh"></p>
+    </div>
+    <div id="select">
+    </div>
+    <!-- 动态加载的文本输入框 -->
+    <div id="text-description">
+    </div>
+    <!-- 提示按钮和提示文本 -->
+    <div class="hint-section">
+
+        <ul id="hintList" class="hidden" style="text-align: left; padding-left: 30px"></ul>
+    </div>
+
+    <!-- 返回按钮和其他按钮 -->
+    <div class="button-section">
+        <button onclick="goBack()">Return</button>
+        <button id="hintButton">Hint</button>
+        <button id="submitButton" onclick="submitAnswer()">Submit</button>
+    </div>
+</div>
+
+<script src="scripts.js"></script>
+</body>
+</html>

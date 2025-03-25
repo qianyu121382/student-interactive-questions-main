@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Category</title>
+    <style>
+        /* 设置超链接的默认样式 */
+        .hyperlink {
+            color: black; /* 默认颜色为黑色 */
+            text-decoration: none; /* 去除下划线 */
+        }
+
+        /* 设置超链接悬浮时的样式 */
+        .hyperlink:hover {
+            color: blue; /* 悬浮时颜色为蓝色 */
+        }
+    </style>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="container">
+    <img src="img/img.png" style="width: 50vh; height: auto;">
+    <p style="text-align: left">Please select one approach:<br>
+        <a href="#" class="hyperlink" onclick="goToCategory('A')">A: I prefer to try solving the problem directly
+            by filling in different numbers and checking
+            if they
+            follow the pyramid rule.<br></a>
+        <a href="#" class="hyperlink" onclick="goToCategory('B')">
+            B: The 5-level pyramid seems too difficult, so I want to start with a simpler 3-level case to
+            understand the basic concept first.<br></a>
+        <a href="#" class="hyperlink" onclick="goToCategory('C')">
+            C: This problem seems related to systems of equations, so I want to analyze it using algebra and
+            equation-solving methods.</a>
+    </p>
+    <button onclick="goBack()">Return</button>
+</div>
+
+<script>
+    function goToCategory(category) {
+        window.location.href = `question.html?category=${category}&question=1`;
+    }
+
+    function goBack() {
+        window.location.href = 'index.html'; // 如果没有上一页，返回到 index.html
+    }
+</script>
+</body>
+</html>
