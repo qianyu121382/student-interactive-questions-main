@@ -61,16 +61,7 @@ document.getElementById('hintButton').addEventListener('click', function () {
     }
 });
 
-// 加载题目内容
-function loadQuestion() {
-    const {category, difficulty} = getQueryParams();
-    const questionSelect = document.getElementById('questionSelect');
-    const selectedQuestionIndex = parseInt(questionSelect.value) - 1;
-    const question = questionData[category][difficulty][selectedQuestionIndex];
-
-    // 更新问题描述
-    document.getElementById('questionText').innerText = question.text;
-
+function loadImage(question) {
     // 更新图片
     const questionImage = document.getElementById('questionImage');
     if (question.image) {
@@ -80,41 +71,101 @@ function loadQuestion() {
         questionImage.src = '';
         questionImage.style.display = 'none';
     }
-    if (question.other !== "") {
-        console.log(question.other);
-        // 创建一个新的 div 元素作为文本描述的容器
-        const textDescriptionDiv = document.createElement('div');
-        textDescriptionDiv.className = 'text-description';
 
-        // 创建 h3 元素，并设置其内容为 question.other 的值
-        const heading = document.createElement('h3');
-        heading.id = 'questionText'; // 使用唯一的 id
-        heading.innerText = question.other;
+}
 
-        // 将 h3 元素添加到文本描述的容器中
-        textDescriptionDiv.appendChild(heading);
-
-        // 获取图片描述区域
-        const imageDescriptionDiv = document.querySelector('.image-description');
-
-        // 将文本描述的容器添加到图片描述区域之后
-        imageDescriptionDiv.parentNode.insertBefore(textDescriptionDiv, imageDescriptionDiv.nextSibling);
-    }
-
-
-    // 更新提示列表
+function loadHint(question) {
     const hintList = document.getElementById('hintList');
     hintList.innerHTML = ''; // 清空之前的列表项
     const hints = question.hint.split('\n'); // 以换行符分割提示文本
     hints.forEach(hint => {
         if (hint.trim() !== '') { // 忽略空行
             const listItem = document.createElement('li');
-            listItem.innerText = hint.trim();
+            listItem.innerHTML = hint.trim();
             hintList.appendChild(listItem);
         }
     });
-    generatePyramid(question);
+}
 
+function loadTextArea(question) {
+    const textDescriptionDiv = document.getElementById('text-description');
+    textDescriptionDiv.innerHTML = '';
+    if (question.textarea === 'true') {
+        // 获取文本描述区域的 DOM 元素
+        if (textDescriptionDiv) { // 确保文本描述区域存在
+            if (question.text_question) { // 先判断 text_question 是否存在
+                // 存在的话，渲染一个包含 text_question 值的 <p> 标签
+                const questionParagraph = document.createElement('p');
+                questionParagraph.innerText = question.text_question;
+                questionParagraph.style.marginLeft = '2vh';
+                questionParagraph.style.textAlign = 'left';
+                textDescriptionDiv.appendChild(questionParagraph);
+            }
+            // 创建输入框区域
+            const answerSection = document.createElement('div');
+            answerSection.className = 'answer-section';
+            answerSection.innerHTML = '<textarea id="answerInput" placeholder="Enter your answer here"></textarea>';
+            textDescriptionDiv.appendChild(answerSection);
+        }
+    }
+}
+
+function loadSelect(question) {
+    const selectDiv = document.getElementById('select');
+    selectDiv.innerHTML = '';
+    if (question.select_question) {
+        const selectData = question.select_question;
+// 获取目标<div>元素
+
+
+        // 清空<div>元素的内容（如果需要）
+        selectDiv.innerHTML = '';
+
+        // 创建问题部分
+        const questionParagraph = document.createElement('p');
+        questionParagraph.textContent = selectData.question;
+        questionParagraph.className = 'question-container'; // 添加CSS类
+        selectDiv.appendChild(questionParagraph);
+
+        // 创建答案选项部分
+        const answersDiv = document.createElement('div');
+        answersDiv.className = 'answer-container'; // 添加CSS类
+        selectData.answers.forEach((answer, index) => {
+            const label = document.createElement('label');
+            label.innerHTML = `
+                <input type="radio" name="answer" value="${answer}" />
+                ${answer}
+            `;
+            answersDiv.appendChild(label);
+        });
+        selectDiv.appendChild(answersDiv);
+    }
+
+}
+
+// 加载题目内容
+function loadQuestion() {
+    const {category, difficulty} = getQueryParams();
+    const questionSelect = document.getElementById('questionSelect');
+    const selectedQuestionIndex = parseInt(questionSelect.value) - 1;
+    const question = questionData[category][difficulty][selectedQuestionIndex];
+
+    // 更新问题描述
+    document.getElementById('questionText').innerHTML = question.text;
+    // 加载图片
+    loadImage(question);
+    // 更新提示列表
+    loadHint(question);
+    // 加载金字塔结构
+    generatePyramid(question);
+    // 加载文本描述区域
+    loadTextArea(question);
+    // 加载选择框
+    loadSelect(question);
+    document.getElementById('questionOther').innerHTML = ""
+    if (question.other !== "") {
+        document.getElementById('questionOther').innerHTML = question.other;
+    }
 }
 
 function calculateNumRows(totalBricks) {
@@ -169,13 +220,6 @@ function generatePyramid(question) {
         }
 
     }
-    if (question.textarea === 'true') {
-        // 如果只有一个值，渲染输入框区域
-        const answerSection = document.createElement('div');
-        answerSection.className = 'answer-section';
-        answerSection.innerHTML = '<textarea id="answerInput" placeholder="Enter your answer here"></textarea>';
-        pyramidContainer.appendChild(answerSection);
-    }
 }
 
 // 提交答案
@@ -229,18 +273,23 @@ const questionData = {
     A: {
         easy: [
             {
-                title: "Question A1 (Getting Started)",
-                text: "I have filled in the number 10 in the bottom left corner. What number should go at “?” ? ",
+                title: "Question 1: Solve the 5-Level Pyramid with a Given Value",
+                text: "Welcome to the Brick Pyramid Challenge! In this problem, you will apply logical reasoning and step-by-step calculations to fill in missing values in a 5-level pyramid.<br>\n" +
+                    "Each brick follows a simple rule:<br>\n" +
+                    "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Every brick is the sum of the two bricks directly below it.<br>\n<br>" +
+                    "In this pyramid, one value is already given—the bottom-left brick is 5. Your task is to fill in the missing numbers so that the pyramid follows the rule.",
                 image: "",
-                other: "",
-                hint: "Follow the pyramid’s rule: each brick is the sum of the two bricks below it.\n" +
-                    "Compute 31-10 and place the result in the empty space.",
+                other: "Main task:<br>" +
+                    "Use the pyramid rule to determine all missing values and complete the pyramid.",
+                hint: "Start from the bottom row—you already know the first number (5). Use the rule to find the next brick in that row.<br>\n" +
+                    "Move upward step by step, using the sum rule to fill in the second row, then the third, and so on.<br>\n" +
+                    "Check your calculations—each brick must be the sum of the two below it.",
                 textarea: "false",
                 pyramid: "280," +
-                    "-2,-2," +
-                    "-2,75,-2," +
-                    "31,-2,-2,-2," +
-                    "10,?,13,-2,-2",
+                    "-1,-1," +
+                    "-1,75,-1," +
+                    "31,-1,-1,-1," +
+                    "5,-1,13,-1,-1",
                 pyramid_color: "true," +
                     "false,false," +
                     "false,true,false," +
@@ -250,40 +299,54 @@ const questionData = {
         ],
         medium: [
             {
-                title: "Question 2 (Filling Empty Bricks):",
-                text: "Try to complete the entire brick pyramid by filling in the empty bricks.",
+                title: "Question 2: Identify the Solution Type of the 5-Level Pyramid",
+                text: "In our pyramid problem, we have three different types of solutions:<br>\n" +
+                    "<ul>\n" +
+                    "<li>Unique Solution: The pyramid has a unique solution, meaning that there is only one possible way to fill in the missing values.</li>\n" +
+                    "<li>Multiple Solutions: The pyramid has multiple solutions, meaning that there are many different possible ways to fill in the missing values.</li>\n" +
+                    "<li>No Solution: The pyramid has no solution, meaning that there is no possible way to assign values to the missing bricks while satisfying the pyramid rule.</li>\n" +
+                    "</ul>",
                 image: "",
-                other: "",
-                hint: "Use the pyramid rule: Each brick is the sum of the two bricks directly below it.\n" +
-                    "Start from the given numbers and work your way up\n" +
-                    "Check your calculations by ensuring each level follows the rule correctly.",
-                textarea: "false",
+                other: "Main task:<br>\n" +
+                    "Whether the above pyramid has a unique solution, multiple solutions, or no solution.",
+                hint: "Try to find one solution—fill in the missing numbers step by step using the pyramid rule.\n" +
+                    "Check if you can find another solution—try adjusting some of the missing numbers while still following the pyramid rule.\n" +
+                    "Determine the solution type—if multiple valid solutions exist, the problem has multiple solutions; if only one solution is possible, it has a unique solution; if no numbers satisfy the pyramid rule, it has no solution.",
+                textarea: "true",
+                select_question: {
+                    question: "What type of solution does the pyramid have?",
+                    answers: ["unique solution", "multiple solutions", "no solution"]
+                },
+                text_question: "Please explain the reason(s)",
                 pyramid: "280," +
                     "-1,-1," +
                     "-1,75,-1," +
                     "31,-1,-1,-1," +
-                    "10,-1,13,-1,-1",
+                    "-1,-1,13,-1,-1",
                 pyramid_color: "true," +
                     "false,false," +
                     "false,true,false," +
                     "true,false,false,false," +
                     "false,false,true,false,false"
-
             },
             {
-                title: "Question 3 (Exploring Multiple Solutions):",
-                text: "Try to change the initial number in the bottom-left corner and solve the pyramid again.",
+                title: "Question 3: Changing the Position of the Additional Given Number",
+                text: "In the previous problem A1, we explored how adding an extra number to the bottom row affected the solution type of the pyramid.<br>\n<br>" +
+                    "Now, let's take a step further: What happens when we change the position of this additional number?<br>\n<br>" +
+                    "Main task:<br>\n" +
+                    "Try to solve the following pyramid by filling in the missing values while following the pyramid rule.",
                 image: "",
                 other: "",
                 hint: "Observe how your new solution compares to the previous one.\n" +
                     "Try selecting a different brick and repeat the previous steps.\n" +
                     "Did the solution change?",
-                textarea: "false",
+                textarea: "true",
+                text_question: "Please explain how you found the solution.",
                 pyramid: "280," +
                     "-1,-1," +
                     "-1,75,-1," +
                     "31,-1,-1,-1," +
-                    "-1,-1,13,-1,-1",
+                    "-1,-1,13,-1,1",
                 pyramid_color: "true," +
                     "false,false," +
                     "false,true,false," +
@@ -291,24 +354,26 @@ const questionData = {
                     "false,false,true,false,false"
             },
             {
-                title: "Question 4 (Exploring Multiple Solutions):",
-                text: "Choose a different brick to set the initial value. Will we still get a valid solution?",
-                image: "",
+                title: "Question 4: The Mysterious Brick Pyramid Challenge",
+                text: "You are a puzzle master at the Mathematical Pyramid Tournament. Two contestants, A\n" +
+                    "and B, have submitted their completed 5-level Brick Pyramid solutions. However, the\n" +
+                    "judges are unsure whether their solutions are correct.\n<br>" +
+                    "Your role? Act as the final verifier—check their pyramids, and correct any mistakes.\n<br><br>" +
+                    "Main task:<br>" +
+                    "Verify whether both pyramids are correct, can you fix the mistakes?",
+                image: "img/A/A4.png",
                 other: "",
-                hint: "Try selecting a different empty brick as a starting point and observe how the pyramid changes.\n" +
-                    "Pay special attention to the bottom-right corner.\n" +
-                    "Can you determine if the solution is always unique?",
-                textarea: "false",
-                pyramid: "280," +
-                    "-1,-1," +
-                    "-1,75,-1," +
-                    "31,-1,-1,-1," +
-                    "-1,-1,13,-1,-1",
-                pyramid_color: "false," +
-                    "false,false," +
-                    "false,false,false," +
-                    "false,false,false,false," +
-                    "false,false,false,false,false"
+                select_question: {
+                    question: "",
+                    answers: ["A is correct", "B is correct", "Both A and B", "Neither A nor B"]
+                },
+                hint: "Check each row carefully—does every brick follow the sum rule?" +
+                    "If an error is found, modify the necessary numbers while keeping the\n" +
+                    "pyramid consistent.",
+                textarea: "true",
+                text_question:"Please explain your reason(s)",
+                pyramid: "",
+                pyramid_color: "",
             },
         ],
         hard: [
@@ -350,7 +415,6 @@ const questionData = {
                     "false,false,false," +
                     "false,false,false,false," +
                     "false,false,false,false,false"
-
             }
         ]
     },
